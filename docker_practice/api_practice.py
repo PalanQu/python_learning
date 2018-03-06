@@ -1,7 +1,8 @@
 import os
 import requests
 
-def check_connection(daemon_url="http://127.0.0.1:2376"):
+daemon_url = "http://127.0.0.1:2376"
+def check_connection(daemon_url=daemon_url):
     """测试与docker的连接是否已经建立成功"""
     check_connection_url = os.path.join(daemon_url, "containers/json")
     params = {"all": 1}
@@ -11,7 +12,7 @@ def check_connection(daemon_url="http://127.0.0.1:2376"):
 
 def create_container(
         container_name, *,
-        daemon_url="http://127.0.0.1:2376",
+        daemon_url=daemon_url,
         image="ubuntu"):
     """建立一个新的container"""
     r = requests.post(
@@ -24,7 +25,7 @@ def create_container(
 
 def commit_container(
         container_name, *,
-        daemon_url="http://127.0.0.1:2376",
+        daemon_url=daemon_url,
         comment="my comments"):
     """提交对container的修改"""
     r = requests.post(
@@ -39,7 +40,7 @@ def commit_container(
 
 def push_modified_commit(
         repo_name="palanqu/docker_learning", *,
-        daemon_url="http://127.0.0.1:2376",
+        daemon_url=daemon_url,
         registry_auth):
     """将commit提交到repo上"""
     r = requests.post(
@@ -49,9 +50,8 @@ def push_modified_commit(
 
 
 if __name__ == "__main__":
-    daemon_url = "http://127.0.0.1:2376"
     image = "ubuntu"
-    container_name =  "ubuntu-container"
+    container_name = "ubuntu-container"
     registry_auth = "eyJ1c2VybmFtZSI6InBhbGFucXUiLCJwYXNzd29yZCI6Ik1ESjAyMTQ4MDQxOTMtKyIsICJhdXRoIjoiIiwiZW1haWwiOiJwYWxhbl93b3JrQDE2My5jb20ifQ"
     repo_name = "palanqu/docker_learning"
     comment = "commit test"
