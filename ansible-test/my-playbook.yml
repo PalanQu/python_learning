@@ -1,0 +1,53 @@
+---
+- hosts: local-test
+  remote_user: root
+  tasks:
+<<<<<<< HEAD
+    - name: copy the shell file to /usr/local/bin
+      sudo: yes
+      copy: src=./dockerd.sh dest=/usr/local/bin
+
+    - name: add +x mode of the file
+      sudo: yes
+      file: dest=/usr/local/bin/dockerd.sh mode=a+x 
+
+    - name: copy the service file to /etc/systemd/system
+      sudo: yes
+      copy: src=./dockerd.service dest=/etc/systemd/system
+
+    - name: force systemd to reread configs
+      sudo: yes
+      systemd: daemon_reload=yes
+
+    - name: start dockerd
+      sudo: yes
+=======
+    - name: add some config the .bashrc
+      become: yes
+      blockinfile:
+        path: ~/bashrc
+        block: |
+          export DOCKER_HOST="0.0.0.0:2376"
+
+    - name: copy the daemon.json to /etc/docker
+      become: yes
+      copy: src=./daemon.json dest=/etc/docker
+
+    - name: copy the shell file to /usr/local/bin
+      become: yes
+      copy: src=./dockerd.sh dest=/usr/local/bin mode=a+x
+
+    - name: copy the service file to /etc/systemd/system
+      become: yes
+      copy: src=./dockerd.service dest=/etc/systemd/system mode=a+x
+
+    - name: force systemd to reread configs
+      become: yes
+      systemd: daemon_reload=yes
+
+    - name: start dockerd
+      become: yes
+>>>>>>> ansible
+      systemd:
+        name: dockerd.service
+        state: started
