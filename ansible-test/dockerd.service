@@ -1,0 +1,11 @@
+[Unit]
+Description=Deluge daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/dockerd.sh start
+ExecStop=/usr/local/bin/dockerd.sh stop
+ExecRestart=/usr/local/bin/dockerd.sh restart 
+
+[Install]
+WantedBy=multi-user.target
