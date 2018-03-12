@@ -5,7 +5,7 @@
     - name: add some config the .bashrc
       become: yes
       blockinfile:
-        path: ~/bashrc
+        path: /home/qujiabao/.bashrc
         block: |
           export DOCKER_HOST="0.0.0.0:2376"
 
