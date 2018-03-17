@@ -18,7 +18,14 @@ class Request_handler(BaseHTTPRequestHandler):
         self._set_headers()
 
 
-def run(server_class=HTTPServer, handler_class=Request_handler, port=8088):
+def run(server_class=HTTPServer, *, handler_class=Request_handler, port=8088):
+    """
+    运行server
+    :param server_class:
+    :param handler_class:
+    :param port:
+    :return:
+    """
     server_address = ('localhost', port)
     httpd = server_class(server_address, handler_class)
     print('Starting httpd...')
