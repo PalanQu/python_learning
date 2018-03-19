@@ -1,6 +1,4 @@
-#!/bin/bash 
-#/usr/local/bin/dockerd.sh 
-#
+#!/bin/sh
 
 function d_start()
 {
