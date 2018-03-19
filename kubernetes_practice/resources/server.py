@@ -1,24 +1,28 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import http.server as server
+import logging
+import sys
 
 """
 This is a sample http server
 """
+class RequestHandler(server.BaseHTTPRequestHandler):
+    logging.basicConfig(level = logging.INFO)
+    logger = logging.getLogger("HttpServer")
 
-class Request_handler(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-    def do_GET(self):
+    def do_get(self):
         self._set_headers()
         self.wfile.write(bytes("<p>hello</p>", "utf-8"))
 
-    def do_HEAD(self):
+    def do_head(self):
         self._set_headers()
 
 
-def run(server_class=HTTPServer, *, handler_class=Request_handler, port=8088):
+def run(server_class=server.HTTPServer, *, handler_class=RequestHandler, port=8088):
     """
     运行server
     :param server_class:
@@ -26,16 +30,17 @@ def run(server_class=HTTPServer, *, handler_class=Request_handler, port=8088):
     :param port:
     :return:
     """
+    RequestHandler.logger.setLevel(logging.INFO)
     server_address = ('localhost', port)
     httpd = server_class(server_address, handler_class)
-    print('Starting httpd...')
+
+    RequestHandler.logger.info("starting httpd")
+
     httpd.serve_forever()
 
 
 if __name__ == "__main__":
-    from sys import argv
-
-    if len(argv) == 2:
-        run(port=int(argv[1]))
+    if len(sys.argv) == 2:
+        run(port=int(sys.argv[1]))
     else:
         run()

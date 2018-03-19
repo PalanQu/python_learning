@@ -1,8 +1,9 @@
+#!/usr/bin/env bash
 # pull ubuntu image
 docker pull ubuntu
 
 # use Dockerfile to build an docker image
-docker build Dockerfile
+docker build -t k8s-docker Dockerfile
 
 # download minikube
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
