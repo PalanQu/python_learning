@@ -3,7 +3,12 @@ import requests
 
 DAEMON_URL = "http://127.0.0.1:2376"
 def check_connection(daemon_url=DAEMON_URL):
-    """测试与docker的连接是否已经建立成功"""
+    """
+    Test the docker connection
+
+    :param daemon_url: docker daemon url
+    :return: the first parameter is equals to 200 or not, the second parameter is the response body
+    """
     check_connection_url = os.path.join(daemon_url, "containers/json")
     params = {"all": 1}
     r = requests.get(url=check_connection_url, params=params)
@@ -14,7 +19,15 @@ def create_container(
         container_name, *,
         daemon_url=DAEMON_URL,
         image="ubuntu"):
-    """建立一个新的container"""
+    """
+    Create a new container
+
+    :param container_name:  container name
+    :param daemon_url: docker daemon url
+    :param image: name of the image which you create the container based on
+    :return: the first parameter is equals to 200 or not, the second parameter is the response body
+    """
+
     r = requests.post(
         url=os.path.join(daemon_url, "containers/create"),
         params={"name": container_name},
@@ -27,7 +40,15 @@ def commit_container(
         container_name, *,
         daemon_url=DAEMON_URL,
         comment="my comments"):
-    """提交对container的修改"""
+    """
+    Commit the changes to container
+
+    :param container_name: container name
+    :param daemon_url: docker daemon url
+    :param comment: the comment of the commit
+    :return: the first parameter is equals to 200 or not, the second parameter is the response body
+    """
+
     r = requests.post(
         url=os.path.join(daemon_url, "commit"),
         params={
@@ -42,7 +63,13 @@ def push_modified_commit(
         repo_name="palanqu/docker_learning", *,
         daemon_url=DAEMON_URL,
         registry_auth):
-    """将commit提交到repo上"""
+    """
+    Push the commit to repo
+    :param repo_name: repo name
+    :param daemon_url: docker daemon url
+    :param registry_auth: the registry_auth of the user, you need commit the json like {"username":"","password":"", "auth":"","email":""} to base64
+    :return: the first parameter is equals to 200 or not, the second parameter is the response body
+    """
     r = requests.post(
         url=os.path.join(daemon_url, "images", repo_name, "push"),
         headers={"X-Registry-Auth": registry_auth})
