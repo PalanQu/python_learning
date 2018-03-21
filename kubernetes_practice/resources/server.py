@@ -14,11 +14,11 @@ class RequestHandler(server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-    def do_get(self):
+    def do_GET(self):
         self._set_headers()
         self.wfile.write(bytes("<p>hello</p>", "utf-8"))
 
-    def do_head(self):
+    def do_HEAD(self):
         self._set_headers()
 
 
