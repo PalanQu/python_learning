@@ -1,0 +1,28 @@
+---
+- hosts: local-test
+  remote_user: root
+  become: yes
+  tasks:
+    - name: add some config the .bashrc
+      blockinfile:
+        path: /home/qujiabao/.bashrc
+        block: |
+          export DOCKER_HOST="localhost:2376"
+
+    - name: copy the daemon.json to /etc/docker
+      copy:
+        src=./daemon.json dest=/etc/docker owner=root group=root mode=644
+
+    - name: copy the shell file to /usr/local/bin
+      copy: src=./dockerd.sh dest=/usr/local/bin owner=root group=root mode=755
+
+    - name: copy the service file to /etc/systemd/system
+      copy: src=./dockerd.service dest=/etc/systemd/system owner=root group=root mode=755
+
+    - name: force systemd to reread configs
+      systemd: daemon_reload=yes
+
+    - name: start dockerd
+      systemd:
+        name: dockerd.service
+        state: started
